@@ -1,0 +1,7 @@
+main
+*~
+*.o
+*.a
+*.sw*
+gmon.out
+a.out
