@@ -33,3 +33,6 @@ the solution is that + - * / should not be operators, they should be data
 not only should highlight up and down be a thing, and moving highlight left and right, but extending highlight left and right, like shift-arrowkeys in Word, but with a better shortcut
 
 perhaps something like 'highlight left and right, but stop before any special ops, e.x. to highlight a term in a linear combination
+
+2022-07-19(2)02:23:54-0400
+we need a fast unshifted hotkey for subscripts, and possibly exponentiation too

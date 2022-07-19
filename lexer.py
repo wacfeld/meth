@@ -40,8 +40,17 @@ def data_type(s):
 # take in string, turn into data expr, append to nearest list expr
 def append_data(s):
     # navigate upward to nearest list expression
+    prevexpr = None
     while main.curexpr.op != 'LIST':
+        prevexpr = main.curexpr.op
         main.curexpr.op = main.curexpr.parent # the root expression is a list, so this should never encounter None
+        
+    # LEH i'm struggling to determine how list insertion should work
+    # implementing a cursor, index, and iaIA mechanic is probably the best way to go
+    # then a list CAN be focused, and when it's focused there is an index that tells you where to insert
+    # but there is no dedicated insert mode
+    # pressing iaIA just focuses the list in this intermediate fashion
+    # and then navigating up once focuses the entire list
         
     # append data
     dat = Expression('DATA', parent=main.curexpr, data=s)
@@ -93,7 +102,7 @@ def lex(buf, cur):
         # leave second piece in buffer
         return cur
 
-    # 
+    # data followed by single-character op, e.x. a_ for subscripting
     elif cur in config.ops:
         # process data
         append_data(buf)
@@ -105,6 +114,6 @@ def lex(buf, cur):
         # clear buffer
         return ''
 
-    # otherwise do nothing
+    # otherwise do nothing, return new buffer
     else:
         return buf + cur
