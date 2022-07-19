@@ -40,6 +40,7 @@
   
   tokens are lim, sum, sin, oo (infinity), +, etc.
   characters and special characters can't mix, however, to avoid having to put too many spaces
+  nevermind that ^ ... for example, just do the whatever 1+ token break thing
   expressions structures are associated with tokens like lim, sum, +, (), etc.
   
   you are allowed to leave an expression incomplete, perhaps by pressing tab

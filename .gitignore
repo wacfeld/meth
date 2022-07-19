@@ -1,3 +1,4 @@
+__pycache__
 main
 *~
 *.o
@@ -5,3 +6,4 @@ main
 *.sw*
 gmon.out
 a.out
+tags

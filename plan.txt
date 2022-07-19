@@ -1,0 +1,35 @@
+we will use latex. asciimath is not powerful enough
+\Box will handle blank terms, so an error never arises
+
+2022-07-17(0)05:05:53-0400
+honestly the biggest problem is navigation, and the biggest problem with that is the arrow keys are hard to reach
+
+we have three options
+1. vim-like normal/visual insert dichotomy
+2. modifier key accesses normal/visual layer
+3. navigation is neatly confined to to, backspace, enter, space
+
+that's all. not even f keys are allowed. modifiers are allowed but modifiers + those keys tend to not work on terminal
+
+i favour option 2, it seems the fastest
+
+2022-07-18(1)01:34:57-0400
+difficult navigation problems
++, -, *, / should be variadic, of course. it's more intuitive
+but then say i want to change a + to -, or just navigate among the operators, that's kind of difficult now
+requires more significant restructuring
+
+2022-07-18(1)01:37:42-0400
+reordering, fFtT, etc. are important things that can greatly improve over pen and paper
+and copy-paste, of course
+
+2022-07-18(1)15:20:18-0400
+a thing to delete the enclosing thing (e.x. sum _ ^ ...) and free/keep the other stuff, idk
+
+2022-07-18(1)21:28:13-0400
+the solution is that + - * / should not be operators, they should be data
+
+2022-07-19(2)02:16:26-0400
+not only should highlight up and down be a thing, and moving highlight left and right, but extending highlight left and right, like shift-arrowkeys in Word, but with a better shortcut
+
+perhaps something like 'highlight left and right, but stop before any special ops, e.x. to highlight a term in a linear combination
