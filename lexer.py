@@ -1,5 +1,4 @@
 import config
-import main
 
 class Expression:
     def __init__(self, op, parent=None, terms=[], data=None):
@@ -11,7 +10,6 @@ class Expression:
     def getstr(self):
         f = config.getstrs[self.op]
         return f(self)
-
 
 def is_number(s):
     try:
@@ -41,6 +39,8 @@ def data_type(s):
 
 # take in string, turn into data expr, insert to right of nearest list subexpr
 def insert_data(s):
+    import main
+    
     # create data expr
     dat = Expression('DATA', data=s)
 
@@ -66,11 +66,6 @@ def insert_data(s):
     
 
 def lex(buf, cur):
-    # backspace
-    if key == 'KEY_BACKSPACE':
-        charbuf = charbuf[:-1] # remove character from buffer; does nothing to empty buffer
-        return charbuf
-
     # if new buffer is valid op
     if buf + cur in config.op_tokens:
         # execute corresponding function
@@ -79,7 +74,7 @@ def lex(buf, cur):
         
         # clear buffer
         return ''
-
+    
     # buf is one contiguous piece of data (all letters, all numbers, etc.)
     # cur determines what to do next
 
@@ -100,7 +95,7 @@ def lex(buf, cur):
             
     # data type changes - separate
     # e.x. '123' followed by 'a'
-    elif data_type(buf) != data_type(cur):
+    elif data_type(buf) != data_type(cur) and buf != '':
         # break off first piece
         insert_data(buf)
 

@@ -1,5 +1,5 @@
 # tokens corresponding to op names
-op_tokens = { 'lim':TODO , 'sum':TODO , }
+op_tokens = { 'lim':5 , 'sum':5 , }
 
 def blank_str():
     return '\\square'
