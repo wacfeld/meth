@@ -1,6 +1,9 @@
 # tokens corresponding to op names
 op_tokens = { 'lim':5 , 'sum':5 , }
 
+# def sum_expr():
+#     e = Expression('sum', 
+
 def blank_str():
     return '\\square'
 

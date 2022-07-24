@@ -3,6 +3,8 @@ import curses
 
 import config
 import lexer
+from lexer import root
+from lexer import curexpr
 
 stdscr = initscr()
 noecho()
@@ -12,12 +14,6 @@ stdscr.keypad(True)
 
 # buffer where characters are read, displayed, processed
 charbuf = ''
-
-# root expression, which is a list of terms
-root = lexer.Expression('LIST')
-
-# current expression, used to navigate/edit
-curexpr = root
 
 stdscr.move(curses.LINES-1, 0)
 
@@ -44,13 +40,12 @@ while(True):
         charbuf = lexer.lex(charbuf, key) # send buffer + new character to lexer
 
     # generate latex code
-    # latex = root.getstr()
-    l = len(root.terms)
+    latex = root.getstr()
 
     # display latex code
     stdscr.move(0, 0)
     stdscr.clrtoeol()
-    stdscr.addstr(str(l))
+    stdscr.addstr(latex)
 
     # display buffer
     stdscr.move(curses.LINES-1, 0)

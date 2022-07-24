@@ -11,6 +11,14 @@ class Expression:
         f = config.getstrs[self.op]
         return f(self)
 
+
+# root expression, which is a list of terms
+root = Expression('LIST')
+
+# current expression, used to navigate/edit
+curexpr = root
+
+
 def is_number(s):
     try:
         float(s)
@@ -39,31 +47,31 @@ def data_type(s):
 
 # take in string, turn into data expr, insert to right of nearest list subexpr
 def insert_data(s):
-    import main
+    global root
+    global curexpr
     
     # create data expr
     dat = Expression('DATA', data=s)
 
     # current expr is a list: insert on far right end
-    if main.curexpr.op == 'LIST':
-        print('hi')
-        main.curexpr.terms.append(dat)
-        dat.parent = main.curexpr
+    if curexpr.op == 'LIST':
+        curexpr.terms.append(dat)
+        dat.parent = curexpr
 
     # navigate upward to nearest list expression
     else:
         prevexpr = None
-        while main.curexpr.op != 'LIST':
-            prevexpr = main.curexpr
-            main.curexpr = main.curexpr.parent # the root expression is a list, so this must terminate
+        while curexpr.op != 'LIST':
+            prevexpr = curexpr
+            curexpr = curexpr.parent # the root expression is a list, so this must terminate
         
         # insert to right of prevexpr
-        ind = main.curexpr.terms.index(prevexpr) + 1
-        main.curexpr.terms.insert(ind, dat)
-        dat.parent = main.curexpr
+        ind = curexpr.terms.index(prevexpr) + 1
+        curexpr.terms.insert(ind, dat)
+        dat.parent = curexpr
         
     # focus new data
-    main.curexpr = dat
+    curexpr = dat
     
 
 def lex(buf, cur):
@@ -96,7 +104,7 @@ def lex(buf, cur):
             
     # data type changes - separate
     # e.x. '123' followed by 'a'
-    elif data_type(buf) != data_type(cur) and buf != '':
+    elif (data_type(buf) != data_type(cur)) and buf != '':
         # break off first piece
         insert_data(buf)
 
