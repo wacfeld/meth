@@ -12,12 +12,14 @@ class Expression:
         f = config.getstrs[self.op]
         return f(self)
 
+
 def is_number(s):
     try:
         float(s)
         return True
     except ValueError:
         return False
+
 
 def data_type(s):
     # 3.14
@@ -37,25 +39,28 @@ def data_type(s):
         return "special"
 
 
-# take in string, turn into data expr, append to nearest list expr
-def append_data(s):
-    # navigate upward to nearest list expression
-    prevexpr = None
-    while main.curexpr.op != 'LIST':
-        prevexpr = main.curexpr.op
-        main.curexpr.op = main.curexpr.parent # the root expression is a list, so this should never encounter None
-        
-    # LEH i'm struggling to determine how list insertion should work
-    # implementing a cursor, index, and iaIA mechanic is probably the best way to go
-    # then a list CAN be focused, and when it's focused there is an index that tells you where to insert
-    # but there is no dedicated insert mode
-    # pressing iaIA just focuses the list in this intermediate fashion
-    # and then navigating up once focuses the entire list
-        
-    # append data
-    dat = Expression('DATA', parent=main.curexpr, data=s)
-    main.curexpr.terms.append(dat)
+# take in string, turn into data expr, insert to right of nearest list subexpr
+def insert_data(s):
+    # create data expr
+    dat = Expression('DATA', data=s)
 
+    # current expr is a list: insert on far right end
+    if main.curexpr.op == 'LIST':
+        main.curexpr.terms.append(dat)
+        dat.parent = main.curexpr
+
+    # navigate upward to nearest list expression
+    else:
+        prevexpr = None
+        while main.curexpr.op != 'LIST':
+            prevexpr = main.curexpr
+            main.curexpr = main.curexpr.parent # the root expression is a list, so this must terminate
+        
+        # insert to right of prevexpr
+        ind = main.curexpr.terms.index(prevexpr) + 1
+        main.curexpr.terms.insert(ind, dat)
+        dat.parent = main.curexpr
+        
     # focus new data
     main.curexpr = dat
     
@@ -67,9 +72,9 @@ def lex(buf, cur):
         return charbuf
 
     # if new buffer is valid op
-    if buf + cur in config.ops:
+    if buf + cur in config.op_tokens:
         # execute corresponding function
-        f = config.ops[buf + cur]
+        f = config.op_tokens[buf + cur]
         f()
         
         # clear buffer
@@ -82,13 +87,13 @@ def lex(buf, cur):
     # manually separate data pieces
     # TODO ^^^
     elif cur.isspace():
-        # special case - do nothing
+        # blank buffer - do nothing
         if buf == '':
             pass
 
         # create new data expression, append to current list
         else:
-            append_data(buf)
+            insert_data(buf)
 
         # buffer is now empty
         return ''
@@ -97,18 +102,18 @@ def lex(buf, cur):
     # e.x. '123' followed by 'a'
     elif data_type(buf) != data_type(cur):
         # break off first piece
-        append_data(buf)
+        insert_data(buf)
 
         # leave second piece in buffer
         return cur
 
     # data followed by single-character op, e.x. a_ for subscripting
-    elif cur in config.ops:
+    elif cur in config.op_tokens:
         # process data
-        append_data(buf)
+        insert_data(buf)
         
         # execute corresponding function
-        f = config.ops[cur]
+        f = config.op_tokens[cur]
         f()
 
         # clear buffer

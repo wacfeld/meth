@@ -7,11 +7,11 @@ raw()
 stdscr.keypad(True)
 
 while(True):
-    # char = str(stdscr.getch())
-    char = stdscr.getkey()
-    stdscr.move(0,0)
-    stdscr.addstr('                   ')
-    stdscr.move(0,0)
+    char = str(stdscr.getch())
+    # char = stdscr.getkey()
+    # stdscr.move(0,0)
+    stdscr.addstr('\n')
+    # stdscr.move(0,0)
     stdscr.addstr(char)
 
 

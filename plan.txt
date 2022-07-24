@@ -36,3 +36,19 @@ perhaps something like 'highlight left and right, but stop before any special op
 
 2022-07-19(2)02:23:54-0400
 we need a fast unshifted hotkey for subscripts, and possibly exponentiation too
+
+2022-07-22(5)14:11:05-0400
+    # LEH i'm struggling to determine how list insertion should work
+    # implementing a cursor, index, and iaIA mechanic is probably the best way to go
+    # then a list CAN be focused, and when it's focused there is an index that tells you where to insert
+    # but there is no dedicated insert mode
+    # pressing iaIA just focuses the list in this intermediate fashion
+    # and then navigating up once focuses the entire list
+
+a different solution has been reached: a single hotkey inserts a blank to the left of any list element
+
+2022-07-22(5)14:15:12-0400
+list highlighting will be a background, to differentiate from highlighting elements in the list
+
+2022-07-24(0)00:05:49-0400
+it is easier to navigate upward than downward. this is why a special case for insert_data exists, when a whole list is currently focused

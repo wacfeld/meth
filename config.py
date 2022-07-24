@@ -1,12 +1,14 @@
-ops = { 'lim' , 'sum' , '*' }
+# tokens corresponding to op names
+op_tokens = { 'lim':TODO , 'sum':TODO , }
 
-getstrs = { 'lim':lim_expr, 'sum':sum_expr, 'DATA':DATA_str, 'LIST':LIST_str}
+def blank_str():
+    return '\\square'
 
 def DATA_str(expr):
     return expr.data
 
 def LIST_str(expr):
-    return ' '.join(e.getstr for e in expr.terms)
+    return ' '.join(e.getstr() for e in expr.terms)
 
 def lim_str(expr):
     appr = expr.terms[0]
@@ -21,5 +23,4 @@ def sum_str(expr):
 
     return '\\sum_{%s}^{%s} %s' % (bot, top, val)
 
-# def plus_str(expr):
-#     return ' + '.join(e.getstr() for e in expr.terms)
+getstrs = { 'lim':lim_str, 'sum':sum_str, 'DATA':DATA_str, 'LIST':LIST_str, 'BLANK':blank_str}

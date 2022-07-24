@@ -1,0 +1,8 @@
+\documentclass{minimal}
+\usepackage{standalone}
+\usepackage{amsmath}
+
+\usepackage{mathtools}
+\usepackage{amssymb}
+
+\begin{document}
