@@ -44,19 +44,14 @@ def data_type(s):
     else:
         return "special"
 
-
-# take in string, turn into data expr, insert to right of nearest list subexpr
-def insert_data(s):
+def insert_expr(e):
     global root
     global curexpr
-    
-    # create data expr
-    dat = Expression('DATA', data=s)
 
     # current expr is a list: insert on far right end
     if curexpr.op == 'LIST':
-        curexpr.terms.append(dat)
-        dat.parent = curexpr
+        curexpr.terms.append(e)
+        e.parent = curexpr
 
     # navigate upward to nearest list expression
     else:
@@ -67,11 +62,20 @@ def insert_data(s):
         
         # insert to right of prevexpr
         ind = curexpr.terms.index(prevexpr) + 1
-        curexpr.terms.insert(ind, dat)
-        dat.parent = curexpr
+        curexpr.terms.insert(ind, e)
+        e.parent = curexpr
         
-    # focus new data
-    curexpr = dat
+    # focus new expr
+    curexpr = e
+    
+
+# take in string, turn into data expr, insert to right of nearest list subexpr
+def insert_data(s):
+    # create data expr
+    dat = Expression('DATA', data=s)
+
+    # insert
+    insert_expr(dat)
     
 
 def lex(buf, cur):

@@ -27,7 +27,7 @@ while(True):
         charbuf = charbuf[:-1] # remove character from buffer; does nothing to empty buffer
 
     # 
-    if key == 3:
+    elif key == 3:
         exit(0)
     
     # escape ()
@@ -35,7 +35,7 @@ while(True):
 
     # regular character
     else:
-        assert chr(key).isprintable()
+        assert chr(key).isprintable() or chr(key).isspace()
         key = chr(key)
         charbuf = lexer.lex(charbuf, key) # send buffer + new character to lexer
 
