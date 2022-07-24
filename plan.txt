@@ -52,3 +52,12 @@ list highlighting will be a background, to differentiate from highlighting eleme
 
 2022-07-24(0)00:05:49-0400
 it is easier to navigate upward than downward. this is why a special case for insert_data exists, when a whole list is currently focused
+
+2022-07-24(0)01:27:40-0400
+the USER is ALWAYS in control of exactly what happens
+or, pretty much that
+it's not perfectly absolute of course
+but i decide what gets subscripted, etc.
+however speed is still retained
+predictability is the most important factor in order to achieve speed
+more control is more predictability

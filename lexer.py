@@ -46,6 +46,7 @@ def insert_data(s):
 
     # current expr is a list: insert on far right end
     if main.curexpr.op == 'LIST':
+        print('hi')
         main.curexpr.terms.append(dat)
         dat.parent = main.curexpr
 

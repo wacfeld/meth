@@ -43,8 +43,19 @@ while(True):
         key = chr(key)
         charbuf = lexer.lex(charbuf, key) # send buffer + new character to lexer
 
+    # generate latex code
+    # latex = root.getstr()
+    l = len(root.terms)
+
+    # display latex code
+    stdscr.move(0, 0)
+    stdscr.clrtoeol()
+    stdscr.addstr(str(l))
+
+    # display buffer
     stdscr.move(curses.LINES-1, 0)
     stdscr.clrtoeol()
     stdscr.addstr(charbuf)
+
 
 endwin()
