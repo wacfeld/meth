@@ -1,9 +1,11 @@
 import config
+import sys
 
 class Expression:
     def __init__(self, op, parent=None, terms=[], data=None):
         self.op = op
         self.terms = terms
+
         self.data = data
         self.parent = parent
 
@@ -47,7 +49,7 @@ def data_type(s):
 def insert_expr(e):
     global root
     global curexpr
-
+    
     # current expr is a list: insert on far right end
     if curexpr.op == 'LIST':
         curexpr.terms.append(e)
