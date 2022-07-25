@@ -15,7 +15,13 @@ class Expression:
 
     def getstr(self):
         f = config.getstrs[self.op]
-        return f(self)
+        s = f(self)
+
+        # focused, highlight
+        if curexpr == self:
+            return config.highlight(s)
+        else:
+            return s
 
 
 # root expression, which is a list of terms

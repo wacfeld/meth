@@ -19,6 +19,18 @@ stdscr.move(curses.LINES-1, 0)
 
 # read characters into minibuffer
 while(True):
+    # generate latex code
+    latex = config.create_doc(config.create_eqn(root.getstr()))
+    # latex = str(root.terms[0]) + '\n' + str(root.terms[0].terms) + '\n' + str(root.terms[0].terms[0].terms) if root.terms else 'hi'
+
+    # display latex code
+    stdscr.move(0, 0)
+    stdscr.clrtoeol()
+    stdscr.addstr(latex)
+
+    # move back to bottom
+    stdscr.move(curses.LINES-1, 0)
+
     # key = stdscr.getkey()
     key = stdscr.getch()
 
@@ -39,17 +51,7 @@ while(True):
         key = chr(key)
         charbuf = lexer.lex(charbuf, key) # send buffer + new character to lexer
 
-    # generate latex code
-    latex = root.getstr()
-    # latex = str(root.terms[0]) + '\n' + str(root.terms[0].terms) + '\n' + str(root.terms[0].terms[0].terms) if root.terms else 'hi'
-
-    # display latex code
-    stdscr.move(0, 0)
-    stdscr.clrtoeol()
-    stdscr.addstr(latex)
-
     # display buffer
-    stdscr.move(curses.LINES-1, 0)
     stdscr.clrtoeol()
     stdscr.addstr(charbuf)
 

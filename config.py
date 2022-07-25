@@ -1,12 +1,44 @@
 import lexer
 
+texpre = '''\\documentclass{minimal}
+\\usepackage{standalone}
+\\usepackage{amsmath}
+
+\\usepackage{xcolor}
+\\newcommand{\\mathcolorbox}[2]{\\colorbox{#1}{$\\displaystyle #2$}}
+
+\\usepackage{mathtools}
+\\usepackage{amssymb}
+
+\\begin{document}\n'''
+
+texpost = '\n\\end{document}'
+
+eqnpre = '\\begin{equation*}\n'
+eqnpost = '\n\\end{equation*}\n'
+
+def highlight(s):
+    return '\\mathcolorbox{red}{' + s + '}'
+
+def create_doc(body):
+    return texpre + body + texpost
+
+def create_eqn(eqn):
+    return eqnpre + eqn + eqnpost
+
 def list_expr():
     return lexer.Expression('LIST')
 
 def sum_expr():
+    # create sum expr
     e = lexer.Expression('sum')
     e.terms=[list_expr(), list_expr(), list_expr()]
+
+    # insert
     lexer.insert_expr(e)
+
+    # focus bottom term
+    lexer.curexpr = e.terms[0]
 
 # def blank_str():
 #     return '\\square'
