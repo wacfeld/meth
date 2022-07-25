@@ -2,9 +2,13 @@ import config
 import sys
 
 class Expression:
-    def __init__(self, op, parent=None, terms=[], data=None):
+    def __init__(self, op, parent=None, terms=None, data=None):
         self.op = op
-        self.terms = terms
+
+        if terms:
+            self.terms = terms
+        else:
+            self.terms = []
 
         self.data = data
         self.parent = parent

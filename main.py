@@ -41,6 +41,7 @@ while(True):
 
     # generate latex code
     latex = root.getstr()
+    # latex = str(root.terms[0]) + '\n' + str(root.terms[0].terms) + '\n' + str(root.terms[0].terms[0].terms) if root.terms else 'hi'
 
     # display latex code
     stdscr.move(0, 0)
