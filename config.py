@@ -40,21 +40,61 @@ def create_eqn(eqn):
 def list_expr():
     return lexer.Expression('LIST')
 
+
 # like tab on input boxes on websites
 def tab_fore():
-    # if list focused, 
-    # TODO
-    pass
+    oldcur = lexer.curexpr
+    
+    # if not focused on list, navigate up to list
+    while lexer.curexpr.op != 'LIST':
+        lexer.curexpr = lexer.curexpr.parent
+
+    # if list is root, do nothing
+    if lexer.curexpr == lexer.root or not lexer.curexpr.parent:
+        lexer.curexpr = oldcur
+        return
+    
+    # navigate up until not last term
+    while lexer.curexpr.parent.terms[-1] == lexer.curexpr:
+        lexer.curexpr = lexer.curexpr.parent
+        
+        if not lexer.curexpr.parent:
+            lexer.curexpr = oldcur
+            return
+        
+    # move forward one term
+    idx = lexer.curexpr.parent.terms.index(lexer.curexpr)
+    lexer.curexpr = lexer.curexpr.parent.terms[idx+1]
+
 
 # like shift-tab on input boxes on websites
 def tab_back():
-    pass
-    # TODO
+    oldcur = lexer.curexpr
+    
+    # if not focused on list, navigate up to list
+    while lexer.curexpr.op != 'LIST':
+        lexer.curexpr = lexer.curexpr.parent
+
+    # if list is root, revert
+    if not lexer.curexpr.parent:
+        lexer.curexpr = oldcur
+        return
+    
+    # navigate up until not first term
+    while lexer.curexpr.parent.terms[0] == lexer.curexpr:
+        lexer.curexpr = lexer.curexpr.parent
+        
+        if not lexer.curexpr.parent:
+            lexer.curexpr = oldcur
+            return
+    
+    # move backward one term
+    idx = lexer.curexpr.parent.terms.index(lexer.curexpr)
+    lexer.curexpr = lexer.curexpr.parent.terms[idx-1]
 
 def sum_expr():
     # create sum expr
-    e = lexer.Expression('sum')
-    e.terms=[list_expr(), list_expr(), list_expr()]
+    e = lexer.Expression('sum', terms=[list_expr(), list_expr(), list_expr()])
 
     # insert
     lexer.insert_expr(e)

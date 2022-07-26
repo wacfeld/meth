@@ -68,6 +68,21 @@ while(True):
     # 
     elif key == 3:
         exit(0)
+
+    # tab
+    elif key == 9:
+        # send current text to the lexer
+        charbuf = lexer.lex(charbuf, ' ')
+
+        # tab forward
+        config.tab_fore()
+
+    elif key == 353:
+        # send current text to the lexer
+        charbuf = lexer.lex(charbuf, ' ')
+
+        # tab backward
+        config.tab_back()
     
     # escape ()
     # TODO

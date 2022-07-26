@@ -7,6 +7,10 @@ class Expression:
 
         if terms:
             self.terms = terms
+
+            # set parents
+            for t in self.terms:
+                t.parent = self
         else:
             self.terms = []
 
