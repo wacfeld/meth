@@ -101,7 +101,12 @@ while(True):
         config.nav_back()
     
     # escape ()
-    # TODO
+    elif key == 27:
+        key = stdscr.getch()
+        
+        # m-d
+        if key == 100:
+            config.del_expr()
 
     # regular character
     else:

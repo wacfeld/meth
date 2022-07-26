@@ -40,6 +40,36 @@ def create_eqn(eqn):
 def list_expr():
     return lexer.Expression('LIST')
 
+def del_expr():
+    ce = lexer.curexpr
+
+    # parent is list
+    if ce.parent and ce.parent.op == 'LIST':
+        p = ce.parent
+        
+        # get index
+        idx = p.terms.index(ce)
+        
+        # delete from list
+        del p.terms[idx]
+
+        if not p.terms:
+            lexer.curexpr = p
+
+        else:
+            # refocus
+            idx = min(idx, len(p.terms)-1)
+            lexer.curexpr = p.terms[idx]
+    
+    # otherwise, this is a list
+    else:
+        assert ce.op == 'LIST'
+
+        # clear list
+        ce.terms = []
+        
+        # focus does not change
+        
 
 def nav_fore():
     ce = lexer.curexpr

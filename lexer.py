@@ -23,7 +23,10 @@ class Expression:
 
         # focused, highlight
         if curexpr == self:
-            return config.color_fg(s)
+            if curexpr.op == 'LIST':
+                return config.color_bg(s)
+            else:
+                return config.color_fg(s)
         else:
             return s
 
