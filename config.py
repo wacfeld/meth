@@ -1,6 +1,9 @@
 import lexer
 
-texpre = '''\\documentclass{minimal}
+texpre = '''\\documentclass{article}
+\\usepackage[active,tightpage]{preview}
+\\renewcommand{\\PreviewBorder}{1in}
+
 \\usepackage{standalone}
 \\usepackage{amsmath}
 
@@ -11,9 +14,13 @@ texpre = '''\\documentclass{minimal}
 \\usepackage{mathtools}
 \\usepackage{amssymb}
 
-\\begin{document}\n'''
+\\begin{document}
+\\begin{preview}
+\n'''
 
-texpost = '\n\\end{document}'
+texpost = '''\n
+\\end{preview}
+\\end{document}'''
 
 eqnpre = '\\begin{equation*}\n'
 eqnpost = '\n\\end{equation*}\n'
@@ -33,11 +40,16 @@ def create_eqn(eqn):
 def list_expr():
     return lexer.Expression('LIST')
 
+# like tab on input boxes on websites
 def tab_fore():
+    # if list focused, 
+    # TODO
     pass
 
+# like shift-tab on input boxes on websites
 def tab_back():
     pass
+    # TODO
 
 def sum_expr():
     # create sum expr

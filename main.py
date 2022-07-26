@@ -1,6 +1,10 @@
 from curses import *
 import curses
 
+import tempfile, os
+
+# import sys
+
 import config
 import lexer
 from lexer import root
@@ -10,6 +14,20 @@ stdscr = initscr()
 noecho()
 raw()
 stdscr.keypad(True)
+
+# setup temp dir and files
+# output file
+# outfile = sys.argv[1]
+tmpdir = '/dev/shm/'
+td = tempfile.TemporaryDirectory(dir=tmpdir)
+os.chdir(td.name) # cd to td
+fname = '__temp__'
+texfname = fname + '.tex'
+f = open(texfname, 'w')
+
+# compile latex code
+os.system('latex -interaction=batchmode %s > /dev/null &' % fname)
+os.system('xdvi -watchfile 0.01 %s%s.dvi' % (tmpdir, fname))
 
 
 # buffer where characters are read, displayed, processed
@@ -23,10 +41,19 @@ while(True):
     latex = config.create_doc(config.create_eqn(root.getstr()))
     # latex = str(root.terms[0]) + '\n' + str(root.terms[0].terms) + '\n' + str(root.terms[0].terms[0].terms) if root.terms else 'hi'
 
+    # write latex code to outfile
+    f.seek(0,0)
+    f.write(latex)
+    f.truncate()
+    f.flush()
+
     # display latex code
     stdscr.move(0, 0)
     stdscr.clrtoeol()
     stdscr.addstr(latex)
+
+    # compile latex code
+    os.system('latex -interaction=batchmode %s > /dev/null &' % texfname)
 
     # move back to bottom
     stdscr.move(curses.LINES-1, 0)
@@ -56,4 +83,5 @@ while(True):
     stdscr.addstr(charbuf)
 
 
+f.close()
 endwin()

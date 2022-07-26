@@ -1,5 +1,5 @@
 import config
-import sys
+# import sys
 
 class Expression:
     def __init__(self, op, parent=None, terms=None, data=None):
