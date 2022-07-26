@@ -19,7 +19,7 @@ class Expression:
 
         # focused, highlight
         if curexpr == self:
-            return config.highlight(s)
+            return config.color_fg(s)
         else:
             return s
 

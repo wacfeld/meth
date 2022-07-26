@@ -6,6 +6,7 @@ texpre = '''\\documentclass{minimal}
 
 \\usepackage{xcolor}
 \\newcommand{\\mathcolorbox}[2]{\\colorbox{#1}{$\\displaystyle #2$}}
+\\newcommand{\\hlfancy}[2]{\\sethlcolor{#1}\\hl{#2}}
 
 \\usepackage{mathtools}
 \\usepackage{amssymb}
@@ -17,8 +18,11 @@ texpost = '\n\\end{document}'
 eqnpre = '\\begin{equation*}\n'
 eqnpost = '\n\\end{equation*}\n'
 
-def highlight(s):
-    return '\\mathcolorbox{red}{' + s + '}'
+def color_fg(s):
+    return '\\textcolor{green}{' + s + '}'
+
+def color_bg(s):
+    return '\\mathcolorbox{green}{' + s + '}'
 
 def create_doc(body):
     return texpre + body + texpost
@@ -28,6 +32,12 @@ def create_eqn(eqn):
 
 def list_expr():
     return lexer.Expression('LIST')
+
+def tab_fore():
+    pass
+
+def tab_back():
+    pass
 
 def sum_expr():
     # create sum expr
