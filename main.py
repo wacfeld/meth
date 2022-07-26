@@ -27,7 +27,7 @@ f = open(texfname, 'w')
 
 # compile latex code
 os.system('latex -interaction=batchmode %s > /dev/null &' % fname)
-os.system('xdvi -watchfile 0.01 %s%s.dvi' % (tmpdir, fname))
+# os.system('xdvi -watchfile 0.01 %s%s.dvi' % (tmpdir, fname))
 
 
 # buffer where characters are read, displayed, processed
@@ -41,16 +41,16 @@ while(True):
     latex = config.create_doc(config.create_eqn(root.getstr()))
     # latex = str(root.terms[0]) + '\n' + str(root.terms[0].terms) + '\n' + str(root.terms[0].terms[0].terms) if root.terms else 'hi'
 
+    # display latex code
+    stdscr.move(0, 0)
+    stdscr.clrtoeol()
+    stdscr.addstr(latex)
+
     # write latex code to outfile
     f.seek(0,0)
     f.write(latex)
     f.truncate()
     f.flush()
-
-    # display latex code
-    stdscr.move(0, 0)
-    stdscr.clrtoeol()
-    stdscr.addstr(latex)
 
     # compile latex code
     os.system('latex -interaction=batchmode %s > /dev/null &' % texfname)
@@ -74,15 +74,31 @@ while(True):
         # send current text to the lexer
         charbuf = lexer.lex(charbuf, ' ')
 
-        # tab forward
-        config.tab_fore()
+        # navigate forward
+        config.nav_fore()
+
+    # enter
+    elif key == 10:
+        # send current text to the lexer
+        charbuf = lexer.lex(charbuf, ' ')
+
+        # navigate upward
+        config.nav_up()
+
+    # delete
+    elif key == 330:
+        # send current text to the lexer
+        charbuf = lexer.lex(charbuf, ' ')
+        
+        # navigate downward
+        config.nav_down()
 
     elif key == 353:
         # send current text to the lexer
         charbuf = lexer.lex(charbuf, ' ')
 
-        # tab backward
-        config.tab_back()
+        # navigate backward
+        config.nav_back()
     
     # escape ()
     # TODO
@@ -96,6 +112,16 @@ while(True):
     # display buffer
     stdscr.clrtoeol()
     stdscr.addstr(charbuf)
+
+
+    # write latex code to outfile
+    f.seek(0,0)
+    f.write(latex)
+    f.flush()
+    f.truncate()
+
+    # compile latex code
+    os.system('latex -interaction=batchmode %s > /dev/null &' % texfname)
 
 
 f.close()

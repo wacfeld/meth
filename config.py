@@ -41,56 +41,80 @@ def list_expr():
     return lexer.Expression('LIST')
 
 
-# like tab on input boxes on websites
-def tab_fore():
-    oldcur = lexer.curexpr
-    
-    # if not focused on list, navigate up to list
-    while lexer.curexpr.op != 'LIST':
+def nav_fore():
+    ce = lexer.curexpr
+    if ce.parent and ce.parent.terms:
+        idx = ce.parent.terms.index(ce)
+        idx += 1
+        idx %= len(ce.parent.terms)
+        lexer.curexpr = ce.parent.terms[idx]
+
+def nav_back():
+    ce = lexer.curexpr
+    if ce.parent and ce.parent.terms:
+        idx = ce.parent.terms.index(ce)
+        idx -= 1
+        idx %= len(ce.parent.terms)
+        lexer.curexpr = ce.parent.terms[idx]
+
+def nav_up():
+    if lexer.curexpr.parent:
         lexer.curexpr = lexer.curexpr.parent
 
-    # if list is root, do nothing
-    if lexer.curexpr == lexer.root or not lexer.curexpr.parent:
-        lexer.curexpr = oldcur
-        return
+def nav_down():
+    if lexer.curexpr.terms:
+        lexer.curexpr = lexer.curexpr.terms[0]
+
+# # like tab on input boxes on websites
+# def tab_fore():
+#     oldcur = lexer.curexpr
     
-    # navigate up until not last term
-    while lexer.curexpr.parent.terms[-1] == lexer.curexpr:
-        lexer.curexpr = lexer.curexpr.parent
+#     # if not focused on list, navigate up to list
+#     while lexer.curexpr.op != 'LIST':
+#         lexer.curexpr = lexer.curexpr.parent
+
+#     # if list is root, do nothing
+#     if lexer.curexpr == lexer.root or not lexer.curexpr.parent:
+#         lexer.curexpr = oldcur
+#         return
+    
+#     # navigate up until not last term
+#     while lexer.curexpr.parent.terms[-1] == lexer.curexpr:
+#         lexer.curexpr = lexer.curexpr.parent
         
-        if not lexer.curexpr.parent:
-            lexer.curexpr = oldcur
-            return
+#         if not lexer.curexpr.parent:
+#             lexer.curexpr = oldcur
+#             return
         
-    # move forward one term
-    idx = lexer.curexpr.parent.terms.index(lexer.curexpr)
-    lexer.curexpr = lexer.curexpr.parent.terms[idx+1]
+#     # move forward one term
+#     idx = lexer.curexpr.parent.terms.index(lexer.curexpr)
+#     lexer.curexpr = lexer.curexpr.parent.terms[idx+1]
 
 
-# like shift-tab on input boxes on websites
-def tab_back():
-    oldcur = lexer.curexpr
+# # like shift-tab on input boxes on websites
+# def tab_back():
+#     oldcur = lexer.curexpr
     
-    # if not focused on list, navigate up to list
-    while lexer.curexpr.op != 'LIST':
-        lexer.curexpr = lexer.curexpr.parent
+#     # if not focused on list, navigate up to list
+#     while lexer.curexpr.op != 'LIST':
+#         lexer.curexpr = lexer.curexpr.parent
 
-    # if list is root, revert
-    if not lexer.curexpr.parent:
-        lexer.curexpr = oldcur
-        return
+#     # if list is root, revert
+#     if not lexer.curexpr.parent:
+#         lexer.curexpr = oldcur
+#         return
     
-    # navigate up until not first term
-    while lexer.curexpr.parent.terms[0] == lexer.curexpr:
-        lexer.curexpr = lexer.curexpr.parent
+#     # navigate up until not first term
+#     while lexer.curexpr.parent.terms[0] == lexer.curexpr:
+#         lexer.curexpr = lexer.curexpr.parent
         
-        if not lexer.curexpr.parent:
-            lexer.curexpr = oldcur
-            return
+#         if not lexer.curexpr.parent:
+#             lexer.curexpr = oldcur
+#             return
     
-    # move backward one term
-    idx = lexer.curexpr.parent.terms.index(lexer.curexpr)
-    lexer.curexpr = lexer.curexpr.parent.terms[idx-1]
+#     # move backward one term
+#     idx = lexer.curexpr.parent.terms.index(lexer.curexpr)
+#     lexer.curexpr = lexer.curexpr.parent.terms[idx-1]
 
 def sum_expr():
     # create sum expr
@@ -100,6 +124,16 @@ def sum_expr():
     lexer.insert_expr(e)
 
     # focus bottom term
+    lexer.curexpr = e.terms[0]
+
+def lim_expr():
+    # create lim expr
+    e = lexer.Expression('lim', terms=[list_expr(), list_expr()])
+
+    # insert
+    lexer.insert_expr(e)
+
+    # focus approaches term
     lexer.curexpr = e.terms[0]
 
 # def blank_str():
@@ -117,8 +151,8 @@ def LIST_str(expr):
     return ' '.join(e.getstr() for e in expr.terms)
 
 def lim_str(expr):
-    appr = expr.terms[0]
-    val = expr.terms[1]
+    appr = expr.terms[0].getstr()
+    val = expr.terms[1].getstr()
 
     return '\\lim_{%s} %s' % (appr, val)
 
@@ -132,4 +166,4 @@ def sum_str(expr):
 getstrs = { 'lim':lim_str, 'sum':sum_str, 'DATA':DATA_str, 'LIST':LIST_str, }
 
 # tokens corresponding to op names
-op_tokens = { 'lim':5 , 'sum':sum_expr , }
+op_tokens = { 'lim':lim_expr , 'sum':sum_expr , }
