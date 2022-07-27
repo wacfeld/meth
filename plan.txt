@@ -61,3 +61,24 @@ but i decide what gets subscripted, etc.
 however speed is still retained
 predictability is the most important factor in order to achieve speed
 more control is more predictability
+
+2022-07-26(2)03:46:29-0400
+the next step must be selections, i.e. multiple focused things
+contiguously focused expressions
+copy-paste, moving, etc.
+
+2022-07-27(3)05:01:30-0400
+the python-latex-xdvi setup has been instructive (the python part), but the latex-dvi part must be scrapped and replaced with a proper from-scratch gui
+the time it takes to compile latex is unacceptable
+it is not difficult to display equations in 2 dimensions, although it is difficult to do so nicely
+we don't need it to look nice
+the final product will look like this:
+- a gui displays the equation in real time
+- a latex file is written in real time
+- at the end the latex file is handed to the user, a permanent and better formatted copy
+
+also i'm beginning to favor a vim-like insert/visual/normal mode-based ui
+always being in visual mode poses weird challenges that complicate things
+there should be a cursor. additionally this should not be hard to achieve in a from-scratch gui
+however i also believe that it should be easy to do basic navigation in insert-mode only
+additionally the navigation methods for typed math will obviously be different from pen-and-paper math, however it should still be just as fast or faster

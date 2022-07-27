@@ -146,6 +146,14 @@ def nav_down():
 #     idx = lexer.curexpr.parent.terms.index(lexer.curexpr)
 #     lexer.curexpr = lexer.curexpr.parent.terms[idx-1]
 
+
+# def frac_expr():
+#     e = lexer.Expression('frac', terms=[list_expr(), list_expr()])
+
+#     lexer.insert_expr(e)
+
+#     lexer.cur
+
 def sum_expr():
     # create sum expr
     e = lexer.Expression('sum', terms=[list_expr(), list_expr(), list_expr()])
@@ -179,6 +187,12 @@ def LIST_str(expr):
         return blank_str
         
     return ' '.join(e.getstr() for e in expr.terms)
+
+def frac_str(expr):
+    num = expr.terms[0].getstr()
+    den = expr.terms[0].getstr()
+    
+    return '\\frac{%s}{%s}' % (num, den)
 
 def lim_str(expr):
     appr = expr.terms[0].getstr()
