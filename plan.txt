@@ -82,3 +82,15 @@ always being in visual mode poses weird challenges that complicate things
 there should be a cursor. additionally this should not be hard to achieve in a from-scratch gui
 however i also believe that it should be easy to do basic navigation in insert-mode only
 additionally the navigation methods for typed math will obviously be different from pen-and-paper math, however it should still be just as fast or faster
+
+2022-07-31(0)03:47:16-0400
+better idea:
+make a text-based notation
+program manipulates that
+- faster
+- easier to implement
+- computer oriented
+use unicode, of course
+
+2022-08-01(1)15:49:24-0400
+unicode provides nice bracket/brace/parenthesis extensions
